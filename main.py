@@ -49,9 +49,9 @@ import io
 # Load parameters from config file
 import config
 # Default parameters of directory setting
-input_dir  = "host-trajectories/"
-output_dir = "output-trajectories/"
-log_dir    = "/logs/"
+#input_dir  = "host-trajectories/"
+#output_dir = "output-trajectories/"
+#log_dir    = "/logs/"
 
 def get_soi_exit_index(body, dates, positions):
     soi = body.soi
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 	host_dates = []
 	host_post = []
 	host_vel = []
-	with open(input_dir + config.host_trajectory_file) as input_file:
+	with open(config.input_dir + config.host_trajectory_file) as input_file:
 		host_dates, host_pos, host_vel = trajectory_io.parse_trajectory(input_file)
 	earth = extended_classes.BasePlanet('earth')
 	mars = extended_classes.BasePlanet('mars')
@@ -144,13 +144,13 @@ if __name__ == '__main__':
 
 	# Write the trajectory result to specified file
 	print '\nwriting trajectory'
-	with open(output_dir + config.output_trajectory_file, 'w') as output_file:
+	with open(config.output_dir + config.output_trajectory_file, 'w') as output_file:
 		trajectory_io.write_output(output_file, opti_trajectory, earth, mars)
 	print "Success for creating the trajectory, the file name is: %s" % config.output_trajectory_file	
 
 	# Write the ephemeris of Jupiter result to specified file ---jim 17092015---
 	print '\nwriting ephemeris of Jupiter'
-	with open(output_dir + config.output_ephemeris_file, 'w') as output_file:
+	with open(config.output_dir + config.output_ephemeris_file, 'w') as output_file:
 		trajectory_io.jup_eph_gen(output_file, opti_trajectory, jupiter)
 	print "Success for creating the ephemeris of Jupiter, the file name is: %s" % config.output_ephemeris_file
 	
