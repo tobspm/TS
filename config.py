@@ -1,7 +1,7 @@
 #[directories]
-input_dir  = "/home/birdy/Software/TS_tests/bidule/"
-output_dir = "/home/birdy/Software/TS_tests/results/"
-log_dir    = "/home/birdy/Software/TS_tests/results/"
+input_dir  = "../TS_tests/bidule/"
+output_dir = "../TS_tests/results/"
+log_dir    = "../TS_tests/results/"
 
 #[default]
 host_trajectory_file = "host_traj.xyzv"
