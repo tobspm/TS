@@ -146,12 +146,34 @@ if __name__ == '__main__':
 	print '\nwriting trajectory'
 	with open(config.output_dir + config.output_trajectory_file, 'w') as output_file:
 		trajectory_io.write_output(output_file, opti_trajectory, earth, mars)
-	print "Success for creating the trajectory, the file name is: %s" % config.output_trajectory_file	
+	print "Success for creating the trajectory, the file name is: %s" % config.output_trajectory_file
+
+	#------------Nima------------
+	# Write the trajectory result in vts format to specified file --------02/02/16-------
+	print '\nwriting trajectory in vts format'
+	with open(config.output_dir + config.output_trajectory_vts_format_file, 'w') as output_vts_format_file:
+		# Attention c'est fait exprès cette répétition de commandes en guise de modifs. et qq tests
+		output_vts_format_file.write("CIC_OEM_VERS = 2.0\n")
+		output_vts_format_file.write("ORIGINATOR = 'ESEP'\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("META_STAR\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("OBJECT_NAME = 'BIRDY'\n")
+		output_vts_format_file.write("OBJECT_ID = 'CORPS'\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("CENTER_NAME = 'SUN'\n")
+		output_vts_format_file.write("REF_FRAME = 'ECLIPTICJ2000'\n")
+		output_vts_format_file.write("TIME_SYSTEM = 'UTC'\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("META_STOP\n")
+		output_vts_format_file.write("\n")
+		trajectory_io.write_output_vts(output_vts_format_file, opti_trajectory, earth, mars)
+	print "Success for creating the trajectory in vts format, the file name is: %s" % config.output_trajectory_vts_format_file	
 
 	# Write the ephemeris of Jupiter result to specified file ---jim 17092015---
 	print '\nwriting ephemeris of Jupiter'
 	with open(config.output_dir + config.output_ephemeris_file, 'w') as output_file:
-		trajectory_io.jup_eph_gen(output_file, opti_trajectory, jupiter)
+		trajectory_io.body_eph_gen(output_file, opti_trajectory, jupiter)
 	print "Success for creating the ephemeris of Jupiter, the file name is: %s" % config.output_ephemeris_file
 	
 	# ----------------Nima
@@ -168,15 +190,21 @@ if __name__ == '__main__':
 	print '\nwriting ephemeris of Jupiter in vts format'
 	with open(config.output_dir + config.output_ephemeris_vts_format_file, 'w') as output_vts_format_file:
 		# Attention c'est fait exprès cette répétition de commandes en guise de modifs. et qq tests
-		output_vts_format_file.write("CIC_OEM_VERS = \n")
-		output_vts_format_file.write("ORIGINATOR = \n")
+		output_vts_format_file.write("CIC_OEM_VERS = 2.0\n")
+		output_vts_format_file.write("ORIGINATOR = 'ESEP'\n")
+		output_vts_format_file.write("\n")
 		output_vts_format_file.write("META_STAR\n")
-		output_vts_format_file.write("OBJECT_ID = \n")
-		output_vts_format_file.write("CENTER_NAME = \n")
-		output_vts_format_file.write("REF_FRAME = \n")
-		output_vts_format_file.write("TIME_SYSTEM = \n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("OBJECT_NAME = 'BIRDY'\n")
+		output_vts_format_file.write("OBJECT_ID = 'CORPS'\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("CENTER_NAME = 'SUN'\n")
+		output_vts_format_file.write("REF_FRAME = 'ECLIPTICJ2000'\n")
+		output_vts_format_file.write("TIME_SYSTEM = 'UTC'\n")
+		output_vts_format_file.write("\n")
 		output_vts_format_file.write("META_STOP\n")
-		trajectory_io.jup_eph_gen(output_vts_format_file, opti_trajectory, jupiter)
+		output_vts_format_file.write("\n")
+		trajectory_io.body_eph_gen_vts(output_vts_format_file, opti_trajectory, jupiter)
 	print "Success for creating the ephemeris of Jupiter in vts format, the file name is: %s" % config.output_ephemeris_vts_format_file
 	#-------------------EOM
 

@@ -45,25 +45,46 @@ def parse_trajectory(trajectory_file):
     return dates, positions, velocities
 
 def write_output(output_file, trajectory, earth, mars):
-    def tab_write(value):
-        output_file.write('%s\t' % value)
+	""" Function for generating the trajectory of the CubeSat by traj.xyzv """
+	def tab_write(value):
+    		output_file.write('%s\t' % value)
 
-    for value in trajectory:
-        time = value[0]
-        pos = value[1:4]
-        tab_write(pk.epoch(time).jd)
-        tab_write(pos[0]/1000.)  # the position of the CubeSat along the X axis (in km)
-        tab_write(pos[1]/1000.)
-        tab_write(pos[2]/1000.)
-        tab_write(value[4])      # the velocity of the CubeSat along the X axis (in m/s)
-        tab_write(value[5])
-        tab_write(value[6])
-        tab_write(np.linalg.norm(pos)/1000.)  # the radii of the CubeSat from the Sun (in km)
-        tab_write(np.linalg.norm(earth.get_relative_position(time, pos))/1000.)  # the radii of the CubeSat from the Earth (in km)
-        tab_write(np.linalg.norm(mars.get_relative_position(time, pos))/1000.)   # the radii of the CubeSat from the Mars  (in km)
-        tab_write(np.linalg.norm(earth.eph(time))/1000.) 			 # the radii of Earth from the Sun (in km)
-        output_file.write('%s' % (np.linalg.norm(mars.eph(time))/1000.) )	 # the radii of Mars from the Sun (in km)
-        output_file.write('\n')
+	for value in trajectory:
+        	time = value[0]
+        	pos = value[1:4]
+       		tab_write(pk.epoch(time).jd)
+        	tab_write(pos[0]/1000.)  # the position of the CubeSat along the X axis (in km)
+        	tab_write(pos[1]/1000.)
+        	tab_write(pos[2]/1000.)
+        	tab_write(value[4])      # the velocity of the CubeSat along the X axis (in m/s)
+        	tab_write(value[5])
+        	tab_write(value[6])
+        	tab_write(np.linalg.norm(pos)/1000.)  # the radii of the CubeSat from the Sun (in km)
+        	tab_write(np.linalg.norm(earth.get_relative_position(time, pos))/1000.)  # the radii of the CubeSat from the Earth (in km)
+        	tab_write(np.linalg.norm(mars.get_relative_position(time, pos))/1000.)   # the radii of the CubeSat from the Mars  (in km)
+        	tab_write(np.linalg.norm(earth.eph(time))/1000.) 			 # the radii of Earth from the Sun (in km)
+        	output_file.write('%s' % (np.linalg.norm(mars.eph(time))/1000.) )	 # the radii of Mars from the Sun (in km)
+        	output_file.write('\n')
+
+#--------Nima 02020216--------
+def write_output_vts(output_vts_format_file, trajectory, earth, mars):
+	""" Function for generating the trajectory of the CubeSat by traj.xyzv 
+	in the VTS format """
+	def tab_write(value):
+        	output_vts_format_file.write('%s\t' % value)
+
+	for value in trajectory:
+        	time = value[0]
+        	pos = value[1:4]
+        	tab_write(pk.epoch(time).mjd)
+		tab_write(pk.epoch(time))
+        	tab_write(pos[0]/1000.)  # the position of the CubeSat along the X axis (in km)
+        	tab_write(pos[1]/1000.)
+        	tab_write(pos[2]/1000.)
+        	tab_write(value[4])      # the velocity of the CubeSat along the X axis (in m/s)
+        	tab_write(value[5])
+       		tab_write(value[6])
+        	output_vts_format_file.write('\n')
 
 def plot_trajectory(dates, positions, flight_duration):
     earth = pk.planet.jpl_lp('earth')
@@ -79,7 +100,10 @@ def plot_trajectory(dates, positions, flight_duration):
     return ax
 
 # --- Jim 17092015 --- function for generating the ephemeris of Jupiter by traj.xyzv 
-def jup_eph_gen(output_file, trajectory, jupiter):
+#---- Nima 02020216 ---- replacing class jupiter by body in the function
+#def jup_eph_gen(output_file, trajectory, jupiter):
+def body_eph_gen(output_file, trajectory, body):
+	""" Function for generating the ephemeris of a body by traj.xyzv """
 	def tab_write(value):
 		output_file.write('%s\t' % value)
 
@@ -92,11 +116,34 @@ def jup_eph_gen(output_file, trajectory, jupiter):
 	for value in trajectory:
 		time = value[0]
 		pos = value[1:4]
-		sph_temp = car2sph( jupiter.get_relative_position(time, pos) )
+		sph_temp = car2sph( body.get_relative_position(time, pos) )
 		tab_write(pk.epoch(time).jd)
 		tab_write(sph_temp[1]) # latitude 
 		tab_write(sph_temp[0]) # longitude  
 		tab_write(sph_temp[2]) 
 		output_file.write('\n')
 
+#---- Nima 02020216 --------
+def body_eph_gen_vts(output_vts_format_file, trajectory, body):
+	""" Function for generating the ephemeris of a body by traj.xyzv
+	in the VTS format """
+	def tab_write(value):
+		output_vts_format_file.write('%s\t' % value)
+
+	def car2sph(car_pos):
+		r = np.linalg.norm(car_pos)  # km
+		lat = np.arcsin(car_pos[2]/r)*180./np.pi   # degree
+		lon = np.arctan2(car_pos[1], car_pos[0])*180./np.pi  # degree
+		return np.array([lon,lat,r/1000.])
+	
+	for value in trajectory:
+		time = value[0]
+		pos = value[1:4]
+		sph_temp = car2sph( body.get_relative_position(time, pos) )
+		tab_write(pk.epoch(time).mjd)
+		tab_write(pk.epoch(time))
+		tab_write(sph_temp[1]) # latitude 
+		tab_write(sph_temp[0]) # longitude  
+		tab_write(sph_temp[2]) 
+		output_vts_format_file.write('\n')
 
