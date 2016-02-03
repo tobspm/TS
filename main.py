@@ -54,6 +54,7 @@ import config
 #log_dir    = "/logs/"
 
 def get_soi_exit_index(body, dates, positions):
+    """ Function returnig the index of soi(sphere of influence) """
     soi = body.soi
     for index, position in enumerate(positions):
         rel_position = body.get_relative_position(dates[index], position)
@@ -183,15 +184,6 @@ if __name__ == '__main__':
 	
 	# ----------------Nima
 	# Write the ephemeris of Jupiter result in vts format to specified file ---Nima 29012016---
-	CIC_OEM_VERS = 2.0
-	ORIGINATOR = 'ESEP'
-	META_STAR = 'META_START'
-	OBJECT_NAME = 'BIRDY'
-	OBJECT_ID = 'CORPS'
-	CENTER_NAME = 'SUN'
-	REF_FRAME = 'ECLIPTICJ2000'
-	TIME_SYSTEM = 'UTC'
-	META_STOP = 'META_STOP'
 	print '\nwriting ephemeris of Jupiter in vts format'
 	with open(config.output_dir + config.output_ephemeris_vts_format_file, 'w') as output_vts_format_file:
 		# Attention c'est fait exprès cette répétition de commandes en guise de modifs. et qq tests
