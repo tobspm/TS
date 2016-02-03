@@ -76,8 +76,10 @@ def write_output_vts(output_vts_format_file, trajectory, earth, mars):
 	for value in trajectory:
         	time = value[0]
         	pos = value[1:4]
-        	tab_write(pk.epoch(time).mjd)
-		tab_write(pk.epoch(time))
+		time_integer_part = int(pk.epoch(time).mjd // 1) # integer part of mjd time 
+		time_decimal_part = (pk.epoch(time).mjd % 1)*pk.DAY2SEC # converting the decimal part of mjd time to seconds
+        	tab_write(time_integer_part)
+		tab_write(time_decimal_part)
         	tab_write(pos[0]/1000.)  # the position of the CubeSat along the X axis (in km)
         	tab_write(pos[1]/1000.)
         	tab_write(pos[2]/1000.)
@@ -140,8 +142,10 @@ def body_eph_gen_vts(output_vts_format_file, trajectory, body):
 		time = value[0]
 		pos = value[1:4]
 		sph_temp = car2sph( body.get_relative_position(time, pos) )
-		tab_write(pk.epoch(time).mjd)
-		tab_write(pk.epoch(time))
+		time_integer_part = int(pk.epoch(time).mjd // 1) # integer part of mjd time 
+		time_decimal_part = (pk.epoch(time).mjd % 1)*pk.DAY2SEC # converting the decimal part of mjd time to seconds
+		tab_write(time_integer_part)
+		tab_write(time_decimal_part)
 		tab_write(sph_temp[1]) # latitude 
 		tab_write(sph_temp[0]) # longitude  
 		tab_write(sph_temp[2]) 

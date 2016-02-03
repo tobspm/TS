@@ -154,18 +154,23 @@ if __name__ == '__main__':
 	with open(config.output_dir + config.output_trajectory_vts_format_file, 'w') as output_vts_format_file:
 		# Attention c'est fait exprès cette répétition de commandes en guise de modifs. et qq tests
 		output_vts_format_file.write("CIC_OEM_VERS = 2.0\n")
-		output_vts_format_file.write("ORIGINATOR = 'ESEP'\n")
+		output_vts_format_file.write("ORIGINATOR   = 'ESEP'\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("META_STAR\n")
+		output_vts_format_file.write("META_START\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("OBJECT_NAME = 'BIRDY'\n")
-		output_vts_format_file.write("OBJECT_ID = 'CORPS'\n")
+		output_vts_format_file.write("OBJECT_NAME  = 'BIRDY'\n")
+		output_vts_format_file.write("OBJECT_ID    = 'CORPS'\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("CENTER_NAME = 'SUN'\n")
-		output_vts_format_file.write("REF_FRAME = 'ECLIPTICJ2000'\n")
-		output_vts_format_file.write("TIME_SYSTEM = 'UTC'\n")
+		output_vts_format_file.write("CENTER_NAME  = 'SUN'\n")
+		output_vts_format_file.write("REF_FRAME    = 'ECLIPTICJ2000'\n")
+		output_vts_format_file.write("TIME_SYSTEM  = 'UTC'\n")
 		output_vts_format_file.write("\n")
 		output_vts_format_file.write("META_STOP\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("COMMENT	The order of the data is given as follow:\n")
+		output_vts_format_file.write("COMMENT	integer part of MJD, fractional part of MJD, X, Y, Z, X_DOT, Y_DOT, Z_DOT\n")
+		output_vts_format_file.write("COMMENT	The units of the data are given as follow:\n")
+		output_vts_format_file.write("COMMENT	days, seconds, km, km, km, m/s, m/s, m/s\n")
 		output_vts_format_file.write("\n")
 		trajectory_io.write_output_vts(output_vts_format_file, opti_trajectory, earth, mars)
 	print "Success for creating the trajectory in vts format, the file name is: %s" % config.output_trajectory_vts_format_file	
@@ -180,7 +185,7 @@ if __name__ == '__main__':
 	# Write the ephemeris of Jupiter result in vts format to specified file ---Nima 29012016---
 	CIC_OEM_VERS = 2.0
 	ORIGINATOR = 'ESEP'
-	META_STAR = 'META_STAR'
+	META_STAR = 'META_START'
 	OBJECT_NAME = 'BIRDY'
 	OBJECT_ID = 'CORPS'
 	CENTER_NAME = 'SUN'
@@ -191,18 +196,23 @@ if __name__ == '__main__':
 	with open(config.output_dir + config.output_ephemeris_vts_format_file, 'w') as output_vts_format_file:
 		# Attention c'est fait exprès cette répétition de commandes en guise de modifs. et qq tests
 		output_vts_format_file.write("CIC_OEM_VERS = 2.0\n")
-		output_vts_format_file.write("ORIGINATOR = 'ESEP'\n")
+		output_vts_format_file.write("ORIGINATOR   = 'ESEP'\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("META_STAR\n")
+		output_vts_format_file.write("META_START\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("OBJECT_NAME = 'BIRDY'\n")
-		output_vts_format_file.write("OBJECT_ID = 'CORPS'\n")
+		output_vts_format_file.write("OBJECT_NAME  = 'BIRDY'\n")
+		output_vts_format_file.write("OBJECT_ID    = 'CORPS'\n")
 		output_vts_format_file.write("\n")
-		output_vts_format_file.write("CENTER_NAME = 'SUN'\n")
-		output_vts_format_file.write("REF_FRAME = 'ECLIPTICJ2000'\n")
-		output_vts_format_file.write("TIME_SYSTEM = 'UTC'\n")
+		output_vts_format_file.write("CENTER_NAME  = 'SUN'\n")
+		output_vts_format_file.write("REF_FRAME    = 'ECLIPTICJ2000'\n")
+		output_vts_format_file.write("TIME_SYSTEM  = 'UTC'\n")
 		output_vts_format_file.write("\n")
 		output_vts_format_file.write("META_STOP\n")
+		output_vts_format_file.write("\n")
+		output_vts_format_file.write("COMMENT	The order of the data is given as follow:\n")
+		output_vts_format_file.write("COMMENT	integer part of MJD, fractional part of MJD, latitude, longitude, radius planet-CubeSat\n")
+		output_vts_format_file.write("COMMENT	The units of the data are given as follow:\n")
+		output_vts_format_file.write("COMMENT	days, seconds, degree, degree, km\n")
 		output_vts_format_file.write("\n")
 		trajectory_io.body_eph_gen_vts(output_vts_format_file, opti_trajectory, jupiter)
 	print "Success for creating the ephemeris of Jupiter in vts format, the file name is: %s" % config.output_ephemeris_vts_format_file
